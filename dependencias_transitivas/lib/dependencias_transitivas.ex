@@ -1,15 +1,18 @@
 defmodule DependenciasTransitivas do
 
-  def dependencias(entrada) do
-    Map.keys(entrada)
+  def mostra_dependencias(entrada) do
+    entrada
+    |> Map.keys()
     |> Enum.map(fn(key) -> %{key => loop(entrada[key], entrada)} end)
     |> Enum.reduce(fn(a, b) -> Map.merge(a, b) end)
   end
 
   defp loop(nil, _), do: []
-  defp loop(deps, entrada) do
-    subdeps = Enum.flat_map(deps, fn(key) -> loop(entrada[key], entrada) end)
-    MapSet.union(deps, MapSet.new(subdeps))
+  defp loop(dependencias, entrada) do
+    dependencias
+    |> Enum.flat_map(fn(key) -> loop(entrada[key], entrada) end)
+    |> MapSet.new()
+    |> MapSet.union(dependencias)
   end
 
 end

@@ -4,7 +4,7 @@ defmodule DependenciasTransitivasTest do
 
   test "Trivial 1" do
     entrada = %{a: MapSet.new([:b, :c])}
-    assert dependencias(entrada) == entrada
+    assert mostra_dependencias(entrada) == entrada
   end
 
   test "Trivial 2" do
@@ -12,7 +12,7 @@ defmodule DependenciasTransitivasTest do
         a: MapSet.new([:b, :c]),
         d: MapSet.new([:e, :f])
     }
-    assert dependencias(entrada) == entrada
+    assert mostra_dependencias(entrada) == entrada
   end
 
   test "Um nivel de dependencia" do
@@ -20,7 +20,7 @@ defmodule DependenciasTransitivasTest do
         a: MapSet.new([:b, :c]),
         b: MapSet.new([:c, :e])
     }
-    assert dependencias(entrada) == %{
+    assert mostra_dependencias(entrada) == %{
       a: MapSet.new([:b, :c, :e]),
       b: MapSet.new([:c, :e])
     }
@@ -32,7 +32,7 @@ defmodule DependenciasTransitivasTest do
         b: MapSet.new([:c, :e]),
         e: MapSet.new([:f, :g])
     }
-    assert dependencias(entrada) == %{
+    assert mostra_dependencias(entrada) == %{
       a: MapSet.new([:b, :c, :e, :f, :g]),
       b: MapSet.new([:c, :e, :f, :g]),
       e: MapSet.new([:f, :g])
@@ -48,7 +48,7 @@ defmodule DependenciasTransitivasTest do
         e: MapSet.new([:f]),
         f: MapSet.new([:h])
     }
-    assert dependencias(entrada) == %{
+    assert mostra_dependencias(entrada) == %{
       a: MapSet.new([:b, :c, :e, :f, :g, :h]),
       b: MapSet.new([:c, :e, :f, :g, :h]),
       c: MapSet.new([:g]),
