@@ -7,8 +7,9 @@ defmodule DependenciasTransitivas do
   end
 
   defp loop(nil, _), do: []
-  defp loop(lista, entrada) do
-    MapSet.union(lista, MapSet.new(Enum.flat_map(lista, fn(item) -> loop(entrada[item], entrada) end)))
+  defp loop(deps, entrada) do
+    subdeps = Enum.flat_map(deps, fn(key) -> loop(entrada[key], entrada) end)
+    MapSet.union(deps, MapSet.new(subdeps))
   end
 
 end
