@@ -1,0 +1,16 @@
+defmodule CaixaEletronico do
+
+  @notas_disponiveis [100, 50, 20, 10]
+
+  def saque(valor) do
+    escolhe_notas([], valor)
+  end
+
+  defp escolhe_notas(saque, 0), do: saque 
+  defp escolhe_notas(saque, valor) do
+    nota = Enum.find(@notas_disponiveis, fn x -> x <= valor end)
+    numero_notas = trunc(valor / nota)
+    valor_restante = valor - (nota * numero_notas)
+    escolhe_notas(saque ++ [{nota, numero_notas}], valor_restante)
+  end
+end
