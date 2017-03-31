@@ -3,58 +3,58 @@ defmodule DependenciasTransitivasTest do
   use ExUnit.Case
 
   test "Trivial 1" do
-    entrada = %{a: [:b, :c]}
+    entrada = %{a: MapSet.new([:b, :c])}
     assert dependencias(entrada) == entrada
   end
 
   test "Trivial 2" do
     entrada = %{
-        a: [:b, :c],
-        d: [:e, :f]
+        a: MapSet.new([:b, :c]),
+        d: MapSet.new([:e, :f])
     }
     assert dependencias(entrada) == entrada
   end
 
   test "Um nivel de dependencia" do
     entrada = %{
-        a: [:b, :c],
-        b: [:c, :e]
+        a: MapSet.new([:b, :c]),
+        b: MapSet.new([:c, :e])
     }
     assert dependencias(entrada) == %{
-      a: [:b, :c, :e],
-      b: [:c, :e]
+      a: MapSet.new([:b, :c, :e]),
+      b: MapSet.new([:c, :e])
     }
   end
 
   test "Dois niveis de dependencia" do
     entrada = %{
-        a: [:b, :c],
-        b: [:c, :e],
-        e: [:f, :g]
+        a: MapSet.new([:b, :c]),
+        b: MapSet.new([:c, :e]),
+        e: MapSet.new([:f, :g])
     }
     assert dependencias(entrada) == %{
-      a: [:b, :c, :e, :f, :g],
-      b: [:c, :e, :f, :g],
-      e: [:f, :g]
+      a: MapSet.new([:b, :c, :e, :f, :g]),
+      b: MapSet.new([:c, :e, :f, :g]),
+      e: MapSet.new([:f, :g])
     }
   end
 
   test "Teste do exemplo" do
     entrada = %{
-        a: [:b, :c],
-        b: [:c, :e],
-        c: [:g],
-        d: [:a, :f],
-        e: [:f],
-        f: [:h]
+        a: MapSet.new([:b, :c]),
+        b: MapSet.new([:c, :e]),
+        c: MapSet.new([:g]),
+        d: MapSet.new([:a, :f]),
+        e: MapSet.new([:f]),
+        f: MapSet.new([:h])
     }
     assert dependencias(entrada) == %{
-      a: [:b, :c, :e, :f, :g, :h],
-      b: [:c, :e, :f, :g, :h],
-      c: [:g],
-      d: [:a, :b, :c, :e, :f, :g, :h],
-      e: [:f, :h],
-      f: [:h]
+      a: MapSet.new([:b, :c, :e, :f, :g, :h]),
+      b: MapSet.new([:c, :e, :f, :g, :h]),
+      c: MapSet.new([:g]),
+      d: MapSet.new([:a, :b, :c, :e, :f, :g, :h]),
+      e: MapSet.new([:f, :h]),
+      f: MapSet.new([:h])
     }
   end
 end
